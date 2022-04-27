@@ -67,7 +67,7 @@ public class AuthController {
             String jwt = tokenProvider.generateJwtToken(authentication);
             return ResponseHandler.generate("Successfully Logged In", HttpStatus.CREATED, null, null);
         } catch (Exception e) {
-            return ResponseHandler.generate("Login Unsuccessful", HttpStatus.BAD_REQUEST, null, new Error("Wrong Credentials"));
+            return ResponseHandler.generate("Login Unsuccessful", HttpStatus.FORBIDDEN, null, new Error("Wrong Credentials"));
         }
     }
     @PostMapping("/signup")
@@ -76,7 +76,7 @@ public class AuthController {
 
 
             if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-                ResponseHandler.generate("Already Exits", HttpStatus.CONFLICT, null, new Error("Username Exists"));
+                ResponseHandler.generate("Already Exits", HttpStatus.FORBIDDEN, null, new Error("Username Exists"));
             }
 
             // Creating user's account
@@ -98,7 +98,7 @@ public class AuthController {
 
             return ResponseHandler.generate("Successfully Saved", HttpStatus.CREATED, user, null);
         } catch (Exception e) {
-            return ResponseHandler.generate("Not Saved", HttpStatus.BAD_REQUEST, null, new Error("Bad Request"));
+            return ResponseHandler.generate("Not Saved", HttpStatus.FORBIDDEN, null, new Error("Bad Request"));
         }
     }
     @PostMapping("user/review")
@@ -113,7 +113,7 @@ public class AuthController {
             repository.save(review);
             return ResponseHandler.generate("SuccessFully Added Review",HttpStatus.CREATED,review,null);
         } catch (Exception e) {
-return ResponseHandler.generate("Unsuccessful",HttpStatus.BAD_REQUEST,null,new Error("Unable tpo Add"));
+return ResponseHandler.generate("Unsuccessful",HttpStatus.FORBIDDEN,null,new Error("Unable tpo Add"));
         }
     }
     @PostMapping("admin/average")
@@ -122,69 +122,20 @@ return ResponseHandler.generate("Unsuccessful",HttpStatus.BAD_REQUEST,null,new E
         List r=service.find(fr.getAmbience(),fr.getClean(),fr.getFood(),fr.getDrinks(),fr.getService());
         return ResponseHandler.generate("SuccessFully Fetched",HttpStatus.CREATED,r,null);
         }catch (Exception e){
-            return ResponseHandler.generate("Not Fetched",HttpStatus.BAD_REQUEST,null,new Error("Bad Request"));
+            return ResponseHandler.generate("Not Fetched",HttpStatus.FORBIDDEN,null,new Error("Bad Request"));
         }
     }
 
-    @GetMapping("admin/ambaverage")
+    @GetMapping("admin/allaverage")
     public ResponseEntity<?> all() {
         try {
-            List a = service.ambienceAvg();
-            return ResponseHandler.generate("SuccessFully Fetched",HttpStatus.CREATED,a,null);
+           Map m=service.ambienceAvg();
+            return ResponseHandler.generate("SuccessFully Fetched",HttpStatus.CREATED,m,null);
         } catch (Exception e){
-            return ResponseHandler.generate("Not Fetched",HttpStatus.BAD_REQUEST,null,new Error("Bad Request"));
+            return ResponseHandler.generate("Not Fetched",HttpStatus.FORBIDDEN,null,new Error("Bad Request"));
         }
     }
-    @GetMapping("admin/claverage")
-    public ResponseEntity<?> all1() {
-        try {
-            List b = service.cleanAvg();
-            return ResponseHandler.generate("SuccessFully Fetched", HttpStatus.CREATED, b, null);
-        } catch (Exception e) {
-            return ResponseHandler.generate("Not Fetched", HttpStatus.BAD_REQUEST, null, new Error("Bad Request"));
-        }
-    }
-    @GetMapping("admin/faverage")
-    public ResponseEntity<?> all2() {
-        try {
-            List b = service.foodAvg();
-            return ResponseHandler.generate("SuccessFully Fetched", HttpStatus.CREATED, b, null);
-        } catch (Exception e) {
-            return ResponseHandler.generate("Not Fetched", HttpStatus.BAD_REQUEST, null, new Error("Bad Request"));
-        }
-    }
-    @GetMapping("admin/daverage")
-    public ResponseEntity<?> all3() {
-        try {
 
-            List b = service.drinksAvg();
-            return ResponseHandler.generate("SuccessFully Fetched", HttpStatus.CREATED, b, null);
-        } catch (Exception e) {
-            return ResponseHandler.generate("Not Fetched", HttpStatus.BAD_REQUEST, null, new Error("Bad Request"));
-        }
-    }
-    @GetMapping("admin/saverage")
-    public ResponseEntity<?> all4() {
-        try {
-
-
-            List b = service.serviceAvg();
-            return ResponseHandler.generate("SuccessFully Fetched", HttpStatus.CREATED, b, null);
-        } catch (Exception e) {
-            return ResponseHandler.generate("Not Fetched", HttpStatus.BAD_REQUEST, null, new Error("Bad Request"));
-        }
-    }
-    @GetMapping("admin/oaverage")
-    public ResponseEntity<?> all5() {
-        try {
-
-
-            List b = service.overAllAvg();
-            return ResponseHandler.generate("SuccessFully Fetched", HttpStatus.CREATED, b, null);
-        } catch (Exception e) {
-            return ResponseHandler.generate("Not Fetched", HttpStatus.BAD_REQUEST, null, new Error("Bad Request"));
-        }
-    }
 
 
 }

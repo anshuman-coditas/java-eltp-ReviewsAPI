@@ -7,7 +7,10 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ReviewService {
@@ -27,35 +30,24 @@ public class ReviewService {
        q.setParameter("s",se);
         return q.list();
     }
-    public List ambienceAvg(){
+    public Map ambienceAvg(){
         Session s=sf.openSession();
         Query q=s.createQuery("select AVG(ambience) from Review");
-        return  q.list();
+        Query q1=s.createQuery("select AVG(food) from Review");
+        Query q2=s.createQuery("select AVG(clean) from Review");
+        Query q3=s.createQuery("select AVG(drinks) from Review");
+        Query q4=s.createQuery("select AVG(service) from Review");
+        Query q5=s.createQuery("select AVG((ambience+food+clean+drinks+food+service)/5) from Review");
+        Map m=new HashMap();
+        m.put("ambience",q.list());
+       m.put("food",q1.list());
+       m.put("clean",q2.list());
+       m.put("drinks",q3.list());
+       m.put("service",q4.list());
+       m.put("overall",q5.list());
+       return  m;
+
     }
-    public List foodAvg(){
-        Session s=sf.openSession();
-        Query q=s.createQuery("select AVG(food) from Review");
-        return  q.list();
-    }
-    public List cleanAvg(){
-        Session s=sf.openSession();
-        Query q=s.createQuery("select AVG(clean) from Review");
-        return  q.list();
-    }
-    public List drinksAvg(){
-        Session s=sf.openSession();
-        Query q=s.createQuery("select AVG(drinks) from Review");
-        return  q.list();
-    }
-    public List serviceAvg(){
-        Session s=sf.openSession();
-        Query q=s.createQuery("select AVG(service) from Review");
-        return  q.list();
-    }
-    public List overAllAvg(){
-        Session s=sf.openSession();
-        Query q=s.createQuery("select AVG((ambience+food+clean+drinks+food+service)/5) from Review");
-        return  q.list();
-    }
+
 
 }
