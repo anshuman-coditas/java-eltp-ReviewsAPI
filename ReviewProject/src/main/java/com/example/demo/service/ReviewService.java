@@ -21,7 +21,7 @@ public class ReviewService {
 
    public List find(float a,float c,float f,float d,float se ){
         Session s=sf.openSession();
-        Query q=s.createQuery("from Review where ambience>:x and clean > :y " +
+        Query q=s.createQuery("SELECT u.username,r.ambience,r.clean,r.food,r.drinks,r.service from Review r INNER JOIN User u on r.user.id=u.id where ambience>:x and clean > :y " +
                 "and food > :z and drinks > :d and service > :s");
         q.setParameter("x",a);
        q.setParameter("y",c);

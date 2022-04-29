@@ -2,6 +2,7 @@ package com.example.demo.payload;
 
 public class ReviewRequest {
     private float ambience;
+    private String uname;
     private float clean;
     private float food;
     private float drinks;
@@ -13,6 +14,14 @@ public class ReviewRequest {
 
     public void setAmbience(float ambience) {
         this.ambience = ambience;
+    }
+
+    public String getUname() {
+        return uname;
+    }
+
+    public void setUname(String uname) {
+        this.uname = uname;
     }
 
     public float getClean() {

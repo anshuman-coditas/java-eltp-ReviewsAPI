@@ -26,6 +26,10 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<Role> roles = new HashSet<>();
 
+    public User(){}
+    public User(String username) {
+        this.username = username;
+    }
 
     public Long getId() {
         return id;

@@ -8,8 +8,24 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @OneToOne(targetEntity = User.class,cascade = CascadeType.ALL)
+    private User user;
 
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     private float ambience;
     private float clean;
@@ -56,6 +72,17 @@ public class Review {
     }
 
     public void setService(float service) {
+        this.service = service;
+    }
+
+    public Review(){}
+    public Review(Long id, User user, float ambience, float clean, float food, float drinks, float service) {
+        this.id = id;
+        this.user = user;
+        this.ambience = ambience;
+        this.clean = clean;
+        this.food = food;
+        this.drinks = drinks;
         this.service = service;
     }
 }
